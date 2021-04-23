@@ -48,74 +48,56 @@ main () {
   fi
 
   # you probably want to put other code here.
- #set up global variable 
- passScript=true; 
-
 local STDIN;
  STDIN=$(cat)
 
+FILES=$($STDIN | wc -l)
+
+
+echo "$FILES"
+echo "$LINE_COUNT"
+
+RowCount; 
+ColCount; 
 RowCount=0;
 ColCount=0;  
  while IFS= read -r line; do  
-
+                echo "Line: ${line} RowCount: ${RowCount} Col Count:${#line}  "; 
                 ((RowCount++)); 
-                if ((ColCount == 0)); then 
+                if((ColCount == 0)); then 
                      ColCount=${#line};
              
-               elif (( ColCount != ${#line} )); then #this should throw an exception as the maze is not valid if the lines dont have the same length
+               elif (( ColCount != ${#line} )); then
+               echo "Lines lengths are not equal!"
 
                    ColCount=${#line};
                 fi
                 
         done <<<"$STDIN"
-        
-#set up regular expressions 
-  spacesChar='[\n\[:space:]]'; 
-  hashChar='[\n\#]'; 
-  notHashChar='[^\n\#]'; 
-     
- local index=0;
- while IFS= read -r line; do  
-                #test the whole first & last lines for exits - nonHashes chars
-               if ((index == 0)); then 
-                   [[ ${line} =~ $notHashChar ]] &&   passScript=false;
-               fi
-                if ((index == RowCount-1)); then 
-                   [[ ${line} =~ $notHashChar ]] &&   passScript=false;
-               fi
-               
-                #if first row, check for entry cell
-                if ((index == 1)); then 
-                  local firstCharacter=${line:0:1}
-                   [[ ! ${firstCharacter} =~ $spacesChar ]] && passScript=false;
-                fi
-                #if second last row, test for exit cell 
-                if ((index == RowCount-2)); then 
-                  local lastCharacter="${line: -1}"
-                   [[ ! ${lastCharacter} =~ $spacesChar ]] &&  passScript=false;
-                fi
 
-                #check the first char if not the entry row
-                if ((index != 1)); then 
+echo "${RowCount}";
+echo "${ColCount}";
+
+     hashChar='[\n\#]'; 
+     
+local index=0;
+ while IFS= read -r line; do  
+                echo "Line: ${index}"
+                if((index != 1)); then 
                   local firstCharacter=${line:0:1}
-                   [[ ! ${firstCharacter} =~ $hashChar ]] && passScript=false;
+                   [[ ${firstCharacter} =~ $hashChar ]] && echo "Hash at start is correct" || echo "WRONG: Another character is evident at start"
                 fi
-                #check the last char if not the exit row 
-                if ((index != RowCount-2)); then 
+                if((index != RowCount-2)); then 
                   local lastCharacter="${line: -1}"
-                   [[ ! ${lastCharacter} =~ $hashChar ]] && passScript=false;
+                   [[ ${lastCharacter} =~ $hashChar ]] && echo "Hash a end is correct" || echo "WRONG: Another character is evident at end"
                 fi
-              
+                echo
               ((index++));
         done <<<"$STDIN"
 
 
-if $passScript ; then 
-  echo yes
-else
-  echo no
-fi
-
+  
+  printf '%s' "$STDIN" 
 }
 
 # setup colors and run main

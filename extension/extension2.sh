@@ -48,8 +48,6 @@ main () {
   fi
 
   # you probably want to put other code here.
-
-  #set up global variables 
   local STDIN;
   STDIN=$(cat);
 
@@ -78,6 +76,8 @@ whiteSpaceArr=();
 #Set the white space arr with all the white space cells 
 getWhiteSpaceCells
 
+#set up global variable to search for the exit - maybe if it stop searching 
+foundExit=false; 
 
 #set up the end cell
 endCell=" $(( numRows-2)) , $(( numCols-1)) " 
@@ -85,21 +85,17 @@ endCell=" $(( numRows-2)) , $(( numCols-1)) "
 #set up space regular expression 
 spacesChar='[\n\[:space:]]'; 
 
-
-foundExit=false; 
-
 #run the check cell function at the starting cell
-CheckCell 1 0
+CheckCell 1 0 0 0
 
 
 mazeArray=();
-noEscapeArr=();
 
 replaceSpacesWithIndex
 
-#if there is an exit, find cells that were not visited and test to see if they can find an exit 
-#if they cant, add them to the noEscapeArr
-#if no exit is found in the maze, add all cells to this array
+noEscapeArr=();
+
+#if ${foundExit}; then
 if  ${foundExit}; then
   
         local constVisitedArr=();
@@ -108,7 +104,8 @@ if  ${foundExit}; then
 
         #check for cells not found in the visited arr 
         for whiteCell in "${whiteSpaceArr[@]}"; do
-            
+               #check to make sure cell has not been visited 
+
             #check to make sure cell has not been visited 
             if [[ ! "${constVisitedArr[@]}" =~ "${whiteCell}" ]]; then
                 #reset found exit 
@@ -154,6 +151,8 @@ fi
 
     done
 
+
+
     if (( ${#noEscapeArr[@]} != 0 )); then
       
        echo "$mazeArray"
@@ -175,8 +174,11 @@ fi
 #gets the neighbours of the current cell, current index {Row} then {Column} is used as an input
 CheckCell()
 {
+
+local localVisited=${visitedArrr[@]} ;
   #set up inputs
-  local currentCell=" ${1} , ${2} "  
+  local currentCell=" ${1} , ${2} " 
+  local previousCell=" ${3} , ${4} "  
   local rowIndex=$1
   local colIndex=$2
 
@@ -193,6 +195,18 @@ CheckCell()
         if [ "${currentCell}" = "${endCell}" ]; then
           foundExit=true; 
         fi
+echo "Previous Cell: ${previousCell} "
+echo "Current Cell: ${currentCell}"
+
+      if [[ " ${localVisited[@]} " =~ " ${currentCell} " ]]; then
+          if [ ! "${currentCell}" = "${previousCell}" ]; then
+            echo "FOUND A LOOP"
+          fi
+          
+      fi
+
+
+
 
         #check to make sure cell has not been visited 
       if [[ ! " ${visitedArrr[@]} " =~ " ${currentCell} " ]]; then
@@ -208,7 +222,7 @@ CheckCell()
                   local testReturnCharacter=${testReturnedRow:${colIndex}:1}
 
               #test for white if yes, check this cell, else continue
-                [[ $testReturnCharacter =~ $spacesChar ]] && CheckCell $(($1 + 1)) $(($2))
+                [[ $testReturnCharacter =~ $spacesChar ]] && CheckCell $(($1 + 1)) $(($2)) "$1" "$2"
               
             fi
 
@@ -220,7 +234,7 @@ CheckCell()
                   local testReturnCharacter=${testReturnedRow:${colIndex}:1}
 
               #test for white if yes, check this cell, else continue
-                [[ $testReturnCharacter =~ $spacesChar  ]] && CheckCell $(($1 - 1)) $(($2))
+                [[ $testReturnCharacter =~ $spacesChar  ]] && CheckCell $(($1 - 1)) $(($2)) "$1" "$2"
 
             fi
               #check to ensure it is valid index
@@ -230,7 +244,7 @@ CheckCell()
                   local testReturnedRow=${lineArray[$rowIndex]}
                   local testReturnCharacter=${testReturnedRow:${testCol}:1}
               #test for white if yes, check this cell, else continue
-                [[ $testReturnCharacter =~ $spacesChar ]] && CheckCell $(($1)) $(($2 - 1))
+                [[ $testReturnCharacter =~ $spacesChar ]] && CheckCell $(($1)) $(($2 - 1)) "$1" "$2"
 
             fi
             #check to ensure it is valid index
@@ -239,7 +253,7 @@ CheckCell()
                   local testReturnedRow=${lineArray[$rowIndex]}
                   local testReturnCharacter=${testReturnedRow:${testCol}:1}
               #test for white if yes, check this cell, else continue
-                [[ $testReturnCharacter =~ $spacesChar  ]] && CheckCell $(($1)) $(($2 + 1))
+                [[ $testReturnCharacter =~ $spacesChar  ]] && CheckCell $(($1)) $(($2 + 1)) "$1" "$2"
 
             fi
         fi    
@@ -249,8 +263,8 @@ CheckCell()
 getWhiteSpaceCells()
 {
   
-    for ((i=0;i<numRows;i++)); do
-      for ((j=0;j<numCols;j++)); do
+    for((i=0;i<numRows;i++)); do
+      for((j=0;j<numCols;j++)); do
 
         local rowItem=${lineArray[${i}]};
         local charItem=${rowItem:${j}:1};
@@ -269,9 +283,9 @@ getWhiteSpaceCells()
 replaceSpacesWithIndex()
 {
   
-    for ((i=0;i<numRows;i++)); do
+    for((i=0;i<numRows;i++)); do
     local arraystring="";
-      for ((j=0;j<numCols;j++)); do
+      for((j=0;j<numCols;j++)); do
 
         local rowItem=${lineArray[${i}]};
         local charItem=${rowItem:${j}:1};
@@ -282,7 +296,16 @@ replaceSpacesWithIndex()
       done
       mazeArray+=("${arraystring}")
     done
+    
+
+  
 }
+
+
+
+
+
+
 
 # setup colors and run main
 setup_colors

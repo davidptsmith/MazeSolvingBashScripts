@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Author: **FILL IN YOUR NAME HERE**
+# Author: David Smith 
 #
 # Maze quality control script
 
@@ -47,8 +47,55 @@ main () {
     exit 1;
   fi
 
+
+
   # you probably want to put other code here.
+   #set up global variable to search for the exit - maybe if it stop searching 
+ passScript=true; 
+
+local STDIN;
+ STDIN=$(cat)
+
+RowCount=0;
+ColCount=0; 
+
+ while IFS= read -r line; do  
+               
+                ((RowCount++)); 
+                if((ColCount == 0)); then 
+                     ColCount=${#line};
+             
+               elif (( ColCount != ${#line} )); then
+                    ColCount=${#line};
+                fi
+                
+        done <<<"$STDIN"
+
+
+spacesChar='[\n\[:space:]]'; 
+     
+local index=0;
+ while IFS= read -r line; do  
+
+                if ((index == 1)); then 
+                  local firstCharacter=${line:0:1}
+                   [[ ! ${firstCharacter} =~ $spacesChar ]] && passScript=false;
+                fi
+                if ((index == RowCount-2)); then 
+                  local lastCharacter="${line: -1}"
+                   [[ ! ${lastCharacter} =~ $spacesChar ]] &&  passScript=false;
+                fi
+              ((index++));
+        done <<<"$STDIN"
+
+
+     
+if $passScript ; then 
+  echo yes
+else
   echo no
+fi
+
 }
 
 # setup colors and run main

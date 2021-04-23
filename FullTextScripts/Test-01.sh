@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Author: David Smith 
+# Author: **David Smith**
 #
 # Maze quality control script
 
@@ -51,44 +51,44 @@ main () {
 
 
 
-
   # you probably want to put other code here.
-    #set up global variable 
-    passScript=true; 
-
-      #get the standard input for the function 
-      testString=$(cat)
-
     
-
-    #first check to ensure that the document is not empty 
-    if [ -z "${testString}" ]; then 
-        passScript=false
+      #get the standard input for the function 
+      local STDIN;
+      STDIN=$(cat)
       
+      #assign the input to the variable 
+      local testString=${STDIN};  
+      #local testString="####    "
+      #local testString="${parsingTest}"
+      
+      echo "$testString"
+
+    if [ -z "${testString}" ]; then #first check to ensure that the document is not empty 
+        echo "empty string"
       fi
       
       # collection of valid characters 
       validCharacters='[^\n\#[:space:]]'; 
 
-      #Check for non valid characters 
-      [[ ${testString} =~ $validCharacters ]] && passScript=false 
+      #run check using the regular expression
+    #  [[ ${testString} =~ $validCharacters ]] && echo "non valid characters evident" || echo "no non valid characters evident"
+      [[ ${testString} =~ $validCharacters ]] && echo "non valid characters evident" || echo "no non valid characters evident"
 
-
-      #Test for only spaces and # as the condition is not met if it does not contain both 
+      #Test for only spaces and # as if this is true then it is also not a valid maze
       #Collection of valid characters 
       spacesChar='[\n\[:space:]]'; 
       hashChar='[\n\#]'; 
 
-      # #run check using the regular expression as if a maze contains only spaces or hashs then it too is not valid 
-       [[ ! ${testString} =~ $spacesChar ]] &&   passScript=false #echo "no spaces found" $
-       [[ ! ${testString} =~ $hashChar ]] &&   passScript=false #echo "no hashes found" 
+      #run check using the regular expression as if a maze contains only spaces or hashs then it too is not valid 
+      [[ ${testString} =~ $spacesChar ]] && echo "spaces found" || echo "no spaces found"
+      [[ ${testString} =~ $hashChar ]] && echo "hashs found" || echo "no hashes found"
 
 
-if $passScript ; then 
-  echo yes
-else
-  echo no
-fi
+  
+  echo end
+  printf '%s' "$STDIN" ;
+
 
 }
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Author: David Smith 
+# Author: **FILL IN YOUR NAME HERE**
 #
 # Maze quality control script
 
@@ -48,48 +48,51 @@ main () {
   fi
 
   # you probably want to put other code here.
- #set up global variable
- passScript=true; 
-
-#get input
 local STDIN;
  STDIN=$(cat)
 
-#set up local variables 
-local testRowCount=${2}
-local testColCount=${1}
+local testRowCount=${1}
+local testColCount=${2}
 
 testRowCount=$((testRowCount*2+1))
 testColCount=$((testColCount*2+1))
 
 local RowCount; 
+local ColCount; 
 RowCount=0;
-
-#loop through input variable 
+ColCount=0;  
  while IFS= read -r line; do  
-               
-                #if any of the lines are not equal to what is expected, fail the maze 
-                if (( ${#line} != testColCount )); then
-                   passScript=false;
-
-                fi
+                echo "Line: ${line} RowCount: ${RowCount} Col Count:${#line}"; 
                 ((RowCount++)); 
+                if ((ColCount < ${#line} )); then
+                   ColCount=${#line};
+                elif (( ColCount != testColCount )); then
+                   ColCount=${#line};
+                fi
                 
         done <<<"$STDIN"
 
+echo "${testRowCount} ";
+echo "${testColCount} ";
 
-#run checks to ensure values are correct 
+echo "${RowCount}";
+echo "${ColCount}";
+
+
 if (( RowCount != testRowCount )); then
-  passScript=false;
+  echo "rows arent equal";
 fi
 
-#return result 
-if $passScript ; then 
-  echo yes
-else
-  echo no
+if (( ColCount != testColCount )); then
+  echo "columns arent equal";
 fi
 
+ if (( RowCount != testRowCount)) || ((ColCount != testColCount )); then
+                   echo "damnnn this aint right";
+                fi
+
+  echo end
+    printf '%s' "$STDIN" 
  
 }
 
