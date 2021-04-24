@@ -3,16 +3,18 @@
 
 ## Introduction 
 This script checks to see if there are any cells where there is not a path to the exit and highlights those cells in the ouput. 
-If there is no error the command will respond with yes. 
+If all white space cells can find their way to the exit the command will respond with yes. 
 
 ## Instructions: 
-To run the pass the maze to the script and it will work out first if there is a path to the exit, then it will check for any left over cells and ensure that they cannot find their way out of the maze. 
+CD into /assignment1/extensions and run ./demo.sh
 
-Pipe in test files from text file with maze or outputs into the function
-*eg:*  cat ./extension/Test_2.txt  | ./extension/extension.sh  
+This will run a few built in examples.
+
+Feel free to add other text files to the test. 
+Just pipe mage gen into a txt file and make the required changes. 
+
+Note that this test assumes the passing of the previous tests and only tests for fule 7. 
 
 ## How it works
 First is checks to see if there is a path to the exit
-It checks any cells that were not visited 
-If they still cannot find an exit they are then added to a list of issue cells
-if there are errors, these are then highlighted in the output followed by the result "no"
+It assumes the other steps have been checked for to ensure a valid maze has been passed to the script 

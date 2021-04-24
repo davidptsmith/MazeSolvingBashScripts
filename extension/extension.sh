@@ -131,7 +131,7 @@ if  ${foundExit}; then
 
 
    else
-
+        echo "This is a bad maze; no exit was found."
         #check for cells not found in the visited arr 
         for whiteCell in "${whiteSpaceArr[@]}"; do
 
@@ -145,6 +145,7 @@ if  ${foundExit}; then
         done
 
 fi
+
 
 
     mazeArray=$(printf '%s\n' "${mazeArray[@]}")
