@@ -1,37 +1,10 @@
-# CITS4407 Assignment – Semester 1, 2021
+# Maze Solving Script - UWA
 
 ## Details
 
 Version: 0.1  
-Date: 2021-04-07  
-Please check the CITS4407 website or the Git repository
-at <https://github.com/cits4407/assignment1> to ensure that you have the latest
-version.  
-  
-  
+Date: 2021-04-07    
 
-The goal of this assignment is to assess your understanding of concepts
-covered in lectures and practised in lab/workshops.
-
--   The assignment contributes **20%** towards your final mark this
-    semester, and is to be completed as individual work. It is marked
-    out of 20.
--   The deadline for this assignment is <span class="inserted"
-    style="color: red;">**23:59 pm, Sunday 25th April**</span>.
--   The assignment is to be done individually.
--   The submission procedure will be announced on the Help4407 forum and
-    in lectures, and published in the next version of this assignment
-    spec.
--   You are expected to have read and understood the University
-    [Guidelines on Academic
-    Conduct](http://www.governance.uwa.edu.au/procedures/policies/policies-and-procedures?policy=UP07%2F21).
-    In accordance with this policy, you may discuss with other students
-    the general principles required to understand this assignment, but
-    the work you submit must be the result of your own effort.
--   You must submit your assignment before the submission deadline
-    above. There are [Penalties for Late
-    Submission](https://ipoint.uwa.edu.au/app/answers/detail/a_id/2711/~/consequences-for-late-assignment-submission)
-    (click the link for details).
 
 ## Background
 
@@ -127,16 +100,6 @@ utilities, for testing their programs on.
 
 ## Tasks
 
-You should clone the repository at
-<https://github.com/cits4407/assignment1>, which contains a copy of the
-`maze_gen` script, as well as some tools we will use for testing your programs.
-
-It also contains files containing "stubs" for the scripts you will need
-to write – these are script files which currently do very little, and which you
-will need to fill in code for. These are called
-"`quality-check-script-01.sh`", "`quality-check-script-02.sh`", and so
-on.
-
 The scripts all should read from standard input, and output their
 results to standard output. In general, they should just print the word
 "`yes`" if the maze they are given passes the rules they are designed to
@@ -175,13 +138,6 @@ The scripts you will need to write are as follows:
     standard input always have a route from start to finish, as required
     by rule 6 – **2 marks**.
 
-Make sure you **do not re-name** the quality control scripts. Part of
-the marking of the assignment is automated, and relies on the scripts
-having correct names.
-
-Scripts 1–4 should only require commands and Bash features we have used
-in lectures or lab/workshops. Script 5 might require you to do some
-research into other Bash features.
 
 ## Automated tests
 
@@ -195,23 +151,6 @@ the expected
 tools installed. It runs the tests and shows how many pass or
 fail (as well as how long the tests took to run).
 
-Don't be worried that some of the tests show up as failing!
-That is to be expected – you haven't written your scripts yet,
-so we *expect* at least some of them to fail. (And most of
-the ones that pass must be passing only by accident.)
-
-As you work through the assignment, hopefully more of these tests
-should pass.
-
-The tests are not written in Bash, but in a language called Perl,
-which is often more convenient than Bash for writing tests in.
-There is no need for you to understand how the tests work,
-but you are welcome to take a look if you are interested.
-
-After assignments are submitted, we will run these as well
-as other, more stringent, tests to see how well your
-scripts perform on potentially unusual cases.
-
 ## Extension tasks
 
 Up to 2 marks are available for *extension tasks*, which are awarded at
@@ -222,52 +161,12 @@ an excellently implemented and very challenging task.
 
 If you would like to attempt an extension task, make sure you
 
--   check with a facilitator or the unit coordinator that it is
-    appropriate
 -   make a directory called "`extension`" to put your extension script in
 -   call your extension script "`extension.sh`"
 -   add a script called `demo.sh` which shows how to run your
     extension script, as well as a
     README file describing what it does.
 
-## Environment
-
-All submitted programs should run on an Ubuntu 20.04 Linux distribution
-with packages up to date as at April 2021.
-
-A standard **reference environment** is published at
-<https://hub.docker.com/r/adstewart/cits4407-2021-env> – submitted
-programs should assume the packages installed are exactly the ones in
-version 0.1.3 of that environment.
-
-We will provide more details shortly about how you can
-access this standard environment.
-
-## Assessment
-
-In addition to the 17 marks awarded for the scripts, 3 marks are awarded
-for how clear and concise your code is.
-
-## Tips
-
-Recall from lectures that the `shellcheck` command can help you spot
-errors in your program – it is a good idea to run it over your code.
-
-Invoking `declare -p` *`some_var`* will produce nicely printed output of
-a variable, even if the variable is a Bash array or associative array (not
-covered in class, but you might find them useful for the final script).
-
-Invoking `declare -f -p` *`some_function`* will do the same for Bash
-functions.
-
-It is a good idea to start work on the assignment *early*, run your
-code often, and make sure you commit changes to your Git repository
-periodically.
-
-Make sure you do ***not*** store your code in a *public* GitHub repository –
-that breaches the University's rules on Academic Conduct.
-
-Good luck!
 
 <!--
   vim: ts=2 sw=2 et tw=72
