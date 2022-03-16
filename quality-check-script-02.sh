@@ -56,8 +56,8 @@ local STDIN;
  STDIN=$(cat)
 
 #set up local variables 
-local testRowCount=${2}
 local testColCount=${1}
+local testRowCount=${2}
 
 testRowCount=$((testRowCount*2+1))
 testColCount=$((testColCount*2+1))

@@ -59,8 +59,6 @@ main () {
       #get the standard input for the function 
       testString=$(cat)
 
-    
-
     #first check to ensure that the document is not empty 
     if [ -z "${testString}" ]; then 
         passScript=false
@@ -68,10 +66,10 @@ main () {
       fi
       
       # collection of valid characters 
-      validCharacters='[^\n\#[:space:]]'; 
+      invalidCharacters='[^\n\#[:space:]]'; 
 
       #Check for non valid characters 
-      [[ ${testString} =~ $validCharacters ]] && passScript=false 
+      [[ ${testString} =~ $invalidCharacters ]] && passScript=false 
 
 
       #Test for only spaces and # as the condition is not met if it does not contain both 

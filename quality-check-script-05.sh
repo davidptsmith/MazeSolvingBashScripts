@@ -74,7 +74,7 @@ numRows=${#lineArray[@]}
 endCell="{ $(( numRows-2)) , $(( numCols-1)) }" 
 
 #Uncomment out to show the matix array - visualisation tool 
-#replaceSpacesWithIndex
+replaceSpacesWithIndex
 
 #set up space regular expression 
 spacesChar='[\n\[:space:]]'; 
@@ -149,7 +149,7 @@ CheckCell()
                     local testReturnCharacter=${testReturnedRow:${colIndex}:1}
 
                 #test for white if yes, check this cell, else continue
-                  [[ $testReturnCharacter =~ $spacesChar  ]] && CheckCell $(($1 - 1)) $(($2))
+                  [[ $testReturnCharacter =~ $spacesChar  ]] && CheckCell $(($1 - 1)) $(($2)) 
 
               fi
                 #check to ensure it is valid index

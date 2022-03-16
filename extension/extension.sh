@@ -97,6 +97,11 @@ noEscapeArr=();
 
 replaceSpacesWithIndex
 
+if [ "${string1}" = "${string2}" ]; then
+  echo "The two strings are the same"
+fi
+
+
 #if there is an exit, find cells that were not visited and test to see if they can find an exit 
 #if they cant, add them to the noEscapeArr
 #if no exit is found in the maze, add all cells to this array
